@@ -23,6 +23,12 @@ public class StudentController {
         return studentService.getStudentList();
     }
 
+    @RequestMapping("/list2")
+    public List<Student> getStudentList2()
+    {
+        return studentService.getStudentList2();
+    }
+
     @RequestMapping("/add")
     public Result addStudent(@RequestBody Student student)
     {

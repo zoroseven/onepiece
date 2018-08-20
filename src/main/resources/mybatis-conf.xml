@@ -4,7 +4,7 @@
 <configuration>
     <settings>
         <!--这些是极其重要的调整, 它们会修改 MyBatis 在运行时的行为方式。 -->
-        <setting name="cacheEnabled" value="false" />
+        <setting name="cacheEnabled" value="true" />
         <setting name="useGeneratedKeys" value="true" />
         <setting name="defaultExecutorType" value="SIMPLE" />
         <setting name="jdbcTypeForNull" value="OTHER" />

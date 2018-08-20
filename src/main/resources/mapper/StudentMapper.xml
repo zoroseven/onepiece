@@ -4,7 +4,7 @@
 
 <mapper namespace="com.zoro.springboot.mapper.StudentMapper">
 
-    <!--<cache/>-->
+    <cache/>
     <select id="getStudentList" resultType="com.zoro.springboot.entity.Student">
         select id,name,sex,age from t_student;
     </select>
