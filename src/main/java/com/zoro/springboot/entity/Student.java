@@ -1,6 +1,8 @@
-package com.yimi.springboot.entity;
+package com.zoro.springboot.entity;
 
-public class Student {
+import java.io.Serializable;
+
+public class Student implements Serializable {
     private String id;
 
     private int age;

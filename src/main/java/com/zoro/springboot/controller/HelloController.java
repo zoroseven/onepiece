@@ -1,6 +1,6 @@
-package com.yimi.springboot.controller;
+package com.zoro.springboot.controller;
 
-import com.yimi.springboot.entity.Student;
+import com.zoro.springboot.entity.Student;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

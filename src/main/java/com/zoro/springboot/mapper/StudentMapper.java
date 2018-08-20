@@ -1,6 +1,6 @@
-package com.yimi.springboot.mapper;
+package com.zoro.springboot.mapper;
 
-import com.yimi.springboot.entity.Student;
+import com.zoro.springboot.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -10,4 +10,5 @@ public interface StudentMapper {
 
     List<Student> getStudentList();
 
+    int addStudent(Student student);
 }

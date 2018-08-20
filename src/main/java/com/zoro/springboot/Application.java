@@ -1,6 +1,5 @@
-package com.yimi.springboot;
+package com.zoro.springboot;
 
-import com.yimi.springboot.controller.HelloController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

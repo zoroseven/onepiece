@@ -2,11 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yimi.springboot.mapper.StudentMapper">
+<mapper namespace="com.zoro.springboot.mapper.StudentMapper">
 
-    <select id="getStudentList" resultType="com.yimi.springboot.entity.Student">
-        select id,name,sex,age from t_app_student;
+    <!--<cache/>-->
+    <select id="getStudentList" resultType="com.zoro.springboot.entity.Student">
+        select id,name,sex,age from t_student;
     </select>
+
+    <insert id="addStudent" parameterType="com.zoro.springboot.entity.Student">
+        insert into t_student(name,sex,age) values(#{name},#{sex},#{age})
+    </insert>
 
 
 </mapper>
