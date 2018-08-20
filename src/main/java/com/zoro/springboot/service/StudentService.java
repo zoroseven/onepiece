@@ -8,16 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-
 public class StudentService {
 
-    @Autowired
+    @Resource //default byName
     private StudentMapper studentMapper;
 
-    @Autowired
+    @Autowired //default byType
     private StudentMapper2 studentMapper2;
 
     @Transactional
