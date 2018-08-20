@@ -5,6 +5,7 @@ import com.zoro.springboot.entity.Student;
 import com.zoro.springboot.mapper.StudentMapper;
 import com.zoro.springboot.mapper.StudentMapper2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,13 @@ public class StudentService {
     @Autowired //default byType
     private StudentMapper2 studentMapper2;
 
+//    @Autowired
+    @Resource(name = "redisDatabase1")
+    private RedisTemplate redisTemplate1;
+
+    @Resource(name = "redisDatabase2")
+    private RedisTemplate redisTemplate2;
+
     @Transactional
     public List<Student> getStudentList()
     {
@@ -29,7 +37,10 @@ public class StudentService {
 
     @Transactional
     public Result addStudent(Student student){
-        studentMapper.addStudent(student);
+//        studentMapper.addStudent(student);
+        redisTemplate1.opsForValue().set("age",student.getAge());
+        redisTemplate1.opsForValue().set("name",student.getName());
+        redisTemplate2.opsForValue().set("name",student.getName());
         return new Result("");
     }
 
