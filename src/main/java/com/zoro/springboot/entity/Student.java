@@ -11,6 +11,8 @@ public class Student implements Serializable {
 
     private String sex;
 
+    private String pwd;
+
     public String getId() {
         return id;
     }
@@ -43,6 +45,14 @@ public class Student implements Serializable {
         this.sex = sex;
     }
 
+    public String getPwd() {
+        return pwd;
+    }
+
+    public void setPwd(String pwd) {
+        this.pwd = pwd;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -50,6 +60,7 @@ public class Student implements Serializable {
                 ", age=" + age +
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
+                ", pwd='" + pwd + '\'' +
                 '}';
     }
 }

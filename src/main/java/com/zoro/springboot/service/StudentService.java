@@ -4,6 +4,8 @@ import com.zoro.springboot.constant.Result;
 import com.zoro.springboot.entity.Student;
 import com.zoro.springboot.mapper.StudentMapper;
 import com.zoro.springboot.mapper.StudentMapper2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 @Service
 public class StudentService {
 
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     @Resource //default byName
     private StudentMapper studentMapper;
 
@@ -22,25 +26,30 @@ public class StudentService {
     private StudentMapper2 studentMapper2;
 
 //    @Autowired
-    @Resource(name = "redisDatabase1")
-    private RedisTemplate redisTemplate1;
+    @Resource(name = "redisTemplate")
+    private RedisTemplate redisTemplate;
 
-    @Resource(name = "redisDatabase2")
-    private RedisTemplate redisTemplate2;
+    @Resource(name = "logRedisTemplate")
+    private RedisTemplate logRedisTemplate;
 
     @Transactional
     public List<Student> getStudentList()
     {
-        studentMapper.getStudentList();
+        //studentMapper.getStudentList();
+        logger.info("查询学生列表");
         return studentMapper.getStudentList();
+    }
+
+    public Student getStudentByNameAndPwd(Student student){
+        return studentMapper.getStudentByNameAndPwd(student);
     }
 
     @Transactional
     public Result addStudent(Student student){
 //        studentMapper.addStudent(student);
-        redisTemplate1.opsForValue().set("age",student.getAge());
-        redisTemplate1.opsForValue().set("name",student.getName());
-        redisTemplate2.opsForValue().set("name",student.getName());
+        redisTemplate.opsForValue().set("age",student.getAge());
+        //redisTemplate1.opsForValue().set("name",student.getName());
+        //redisTemplate2.opsForValue().set("name",student.getName());
         return new Result("");
     }
 

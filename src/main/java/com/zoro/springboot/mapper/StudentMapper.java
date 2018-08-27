@@ -10,5 +10,7 @@ public interface StudentMapper {
 
     List<Student> getStudentList();
 
+    Student getStudentByNameAndPwd(Student student);
+
     int addStudent(Student student);
 }

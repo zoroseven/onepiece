@@ -13,5 +13,9 @@
         insert into t_student(name,sex,age) values(#{name},#{sex},#{age})
     </insert>
 
+    <select id="getStudentByNameAndPwd" parameterType="com.zoro.springboot.entity.Student">
+        SELECT * FROM t_student WHERE name=#{name} and pwd=#{pwd} limit 1
+    </select>
+
 
 </mapper>

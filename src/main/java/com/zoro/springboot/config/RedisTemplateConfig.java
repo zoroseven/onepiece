@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,9 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+
 /**
  * @author gaocheng
  * @date 2018/8/20  22:43
@@ -23,8 +27,9 @@ import redis.clients.jedis.JedisPoolConfig;
 @Configuration
 public class RedisTemplateConfig {
 
-//	@Autowired
-//	private RedisTemplate redisTemplate;
+	@Autowired
+	@Qualifier("logRedisTemplate")
+	private RedisTemplate logRedisTemplate;
 //
 //	@Bean
 //	public RedisTemplate redisTemplateInit(){
@@ -35,14 +40,20 @@ public class RedisTemplateConfig {
 //	}
 
 
-	@Bean(name = "redisDatabase1")
+
+	@PostConstruct
+	public void init(){
+		RedisAppender.bindRedis(logRedisTemplate);
+	}
+
+	@Bean(name = "redisTemplate")
 	public RedisTemplate<String, Object> redisTemplate(
 			@Value("${spring.redis.host}") String hostName,
 			@Value("${spring.redis.port}") int port,
 			@Value("${spring.redis.password}") String password,
 			@Value("${spring.redis.jedis.pool.max-idle}") int maxIdle,
 			@Value("${spring.redis.jedis.pool.max-active}") int maxTotal,
-			@Value("${redis.key.database.index}") int index,
+			@Value("${spring.redis.database}") int index,
 			@Value("${spring.redis.jedis-factory.max-wait}") long maxWaitMillis) {
 		//设置序列化
 		Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
@@ -62,14 +73,14 @@ public class RedisTemplateConfig {
 		return temple;
 	}
 
-	@Bean(name = "redisDatabase2")
-	public RedisTemplate<String, Object> redisTemplate2(
+	@Bean(name = "logRedisTemplate")
+	public RedisTemplate<String, Object> logRedisTemplate(
 			@Value("${spring.redis.host}") String hostName,
 			@Value("${spring.redis.port}") int port,
 			@Value("${spring.redis.password}") String password,
 			@Value("${spring.redis.jedis.pool.max-idle}") int maxIdle,
 			@Value("${spring.redis.jedis.pool.max-active}") int maxTotal,
-			@Value("${redis.key.database.index2}") int index,
+			@Value("${log.redis.key.database}") int index,
 			@Value("${spring.redis.jedis-factory.max-wait}") long maxWaitMillis) {
 		//设置序列化
 		Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
