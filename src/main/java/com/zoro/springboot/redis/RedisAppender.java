@@ -1,4 +1,4 @@
-package com.zoro.springboot.config;
+package com.zoro.springboot.redis;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.classic.spi.IThrowableProxy;

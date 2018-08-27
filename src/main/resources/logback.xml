@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="false" scanPeriod="10000" debug="false">
 	<timestamp key="bySecond" datePattern="yyyy-MM-dd HH:mm:ss"/>
-	<appender name="STASH-REDIS" class="com.zoro.springboot.config.RedisAppender">
+	<appender name="STASH-REDIS" class="com.zoro.springboot.redis.RedisAppender">
 		<key>springboot</key>
 		<layout>
 			<pattern>
