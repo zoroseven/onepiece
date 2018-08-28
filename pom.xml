@@ -58,12 +58,13 @@
           <artifactId>fastjson</artifactId>
           <version>1.2.31</version>
       </dependency>
-      <dependency>
-          <!--Spring 官方提供的热部署插件 -->
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-devtools</artifactId>
-          <optional>true</optional>
-      </dependency>
+      <!--<dependency>-->
+      <!--热部署插件有类加载器，导致redisappender加载两次-->
+          <!--&lt;!&ndash;Spring 官方提供的热部署插件 &ndash;&gt;-->
+          <!--<groupId>org.springframework.boot</groupId>-->
+          <!--<artifactId>spring-boot-devtools</artifactId>-->
+          <!--<optional>true</optional>-->
+      <!--</dependency>-->
       <!--resid-->
       <dependency>
           <groupId>org.springframework.boot</groupId>
