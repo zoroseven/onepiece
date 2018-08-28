@@ -29,9 +29,6 @@ public class StudentService {
     @Resource(name = "redisTemplate")
     private RedisTemplate redisTemplate;
 
-    @Resource(name = "logRedisTemplate")
-    private RedisTemplate logRedisTemplate;
-
     @Transactional
     public List<Student> getStudentList()
     {

@@ -68,7 +68,7 @@ public class RedisAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 			}
 			String json = layout.doLayout(event);
 			if(json != null){
-				json = json.replaceAll("\t", "");
+				json = json.replaceAll("\t", "").replaceAll("\n","");
 			}
 			if(logRedisTemplate!=null){
 				logRedisTemplate.boundListOps(key).rightPush(json);
