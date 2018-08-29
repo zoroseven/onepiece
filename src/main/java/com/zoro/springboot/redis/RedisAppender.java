@@ -70,9 +70,9 @@ public class RedisAppender extends UnsynchronizedAppenderBase<ILoggingEvent> {
 			if(json != null){
 				json = json.replaceAll("\t", "").replaceAll("\n","");
 			}
-			if(logRedisTemplate!=null){
-				logRedisTemplate.boundListOps(key).rightPush(json);
-			}
+			//if(logRedisTemplate!=null){
+			//	logRedisTemplate.boundListOps(key).rightPush(json);
+			//}
 		} catch (Exception e) {
 			logger.error("Log error:{}",e.getMessage(),e);
 		}

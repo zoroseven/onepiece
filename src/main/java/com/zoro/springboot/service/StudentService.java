@@ -1,6 +1,6 @@
 package com.zoro.springboot.service;
 
-import com.zoro.springboot.constant.Result;
+import com.zoro.springboot.constant.ResultRes;
 import com.zoro.springboot.entity.Student;
 import com.zoro.springboot.mapper.StudentMapper;
 import com.zoro.springboot.mapper.StudentMapper2;
@@ -34,6 +34,7 @@ public class StudentService {
     {
         //studentMapper.getStudentList();
         logger.info("查询学生列表");
+        int i = 1/0;
         return studentMapper.getStudentList();
     }
 
@@ -42,12 +43,12 @@ public class StudentService {
     }
 
     @Transactional
-    public Result addStudent(Student student){
+    public ResultRes addStudent(Student student){
 //        studentMapper.addStudent(student);
         redisTemplate.opsForValue().set("age",student.getAge());
         //redisTemplate1.opsForValue().set("name",student.getName());
         //redisTemplate2.opsForValue().set("name",student.getName());
-        return new Result("");
+        return new ResultRes("");
     }
 
     public List<Student> getStudentList2()

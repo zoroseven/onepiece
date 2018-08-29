@@ -1,6 +1,6 @@
 package com.zoro.springboot.controller;
 
-import com.zoro.springboot.constant.Result;
+import com.zoro.springboot.constant.ResultRes;
 import com.zoro.springboot.entity.Student;
 import com.zoro.springboot.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class StudentController {
     }
 
     @RequestMapping("/add")
-    public Result addStudent(@RequestBody Student student)
+    public ResultRes addStudent(@RequestBody Student student)
     {
         return studentService.addStudent(student);
     }
