@@ -17,7 +17,8 @@ public class CustomHandlerInterceptor implements HandlerInterceptor{
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
-        logger.info("preHandle请求前调用");
+        String ip = httpServletRequest.getRemoteAddr();
+        logger.info("preHandle请求前调用,ip:{}",ip);
         return true;
     }
 

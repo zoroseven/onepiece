@@ -53,10 +53,23 @@
           <artifactId>fastjson</artifactId>
           <version>1.2.31</version>
       </dependency>
+      <!--Druid连接池初始化时filters注入失败，添加log4j后成功-->
       <dependency>
           <groupId>log4j</groupId>
           <artifactId>log4j</artifactId>
           <version>1.2.17</version>
+      </dependency>
+      <!--添加javaMail支持-->
+      <dependency>
+          <groupId>com.sun.mail</groupId>
+          <artifactId>javax.mail</artifactId>
+          <version>1.5.0</version>
+      </dependency>
+      <!--@Slf4j注解支持-->
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>1.16.20</version>
       </dependency>
       <!--<dependency>-->
       <!--热部署插件有类加载器，导致redisappender加载两次-->

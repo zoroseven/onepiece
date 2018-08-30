@@ -4,6 +4,7 @@ import com.zoro.springboot.constant.ResultRes;
 import com.zoro.springboot.entity.Student;
 import com.zoro.springboot.mapper.StudentMapper;
 import com.zoro.springboot.mapper.StudentMapper2;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,10 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Slf4j
 public class StudentService {
 
-    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
+    //private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Resource //default byName
     private StudentMapper studentMapper;
@@ -33,7 +35,7 @@ public class StudentService {
     public List<Student> getStudentList()
     {
         //studentMapper.getStudentList();
-        logger.info("查询学生列表");
+        log.info("查询学生列表");
         return studentMapper.getStudentList();
     }
 
@@ -41,13 +43,11 @@ public class StudentService {
         return studentMapper.getStudentByNameAndPwd(student);
     }
 
-    @Transactional
+    //@Transactional
     public ResultRes addStudent(Student student){
-//        studentMapper.addStudent(student);
+        studentMapper.addStudent(student);
         redisTemplate.opsForValue().set("age",student.getAge());
-        //redisTemplate1.opsForValue().set("name",student.getName());
-        //redisTemplate2.opsForValue().set("name",student.getName());
-        return ResultRes.success("添加成功");
+        return ResultRes.success(null);
     }
 
     public List<Student> getStudentList2()

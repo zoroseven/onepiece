@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zoro.springboot.mapper.ScheduleMapper">
+
+  <select id="getExcuteConfig" resultType="com.zoro.springboot.entity.SchedulerConfig">
+      select id,taskName,taskMemo,taskCron,isValid,isDealed from t_scheduler_config where isDealed=1 and isValid=1
+  </select>
+
+  <select id="getExcuteConfig" resultType="com.zoro.springboot.entity.SchedulerConfig">
+    select id,taskName,taskMemo,taskCron,isValid,isDealed from t_scheduler_config where isDealed=0 and isValid=1
+  </select>
+
+  <update id="updateSchedulerConfigDeal">
+    update mis_scheduler_config set isDealed=1 where id=#{id}
+  </update>
+
+</mapper>
