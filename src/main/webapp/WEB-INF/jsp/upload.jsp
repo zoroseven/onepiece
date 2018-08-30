@@ -5,7 +5,7 @@
 </head>
 <body>
 <form method="post" action="/doUpload" enctype="multipart/form-data">
-	单个文件上传：<input type="file" name="file" /><br/>
+	单个文件上传（最大100Kb）：<input type="file" name="file" />
 	<input type="submit" value="提交上传"/>
 </form>
 
