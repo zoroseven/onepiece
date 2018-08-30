@@ -4,7 +4,7 @@
 	登录
 </head>
 <body>
-<form method="get" action="/login">
+<form method="get" action="/doLogin">
 用户名：<input type="text" name="name" /><br/>
 密码：<input type="text" name="pwd" /><br/>
 	<input type="submit" value="登录"/>

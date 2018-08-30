@@ -34,7 +34,6 @@ public class StudentService {
     {
         //studentMapper.getStudentList();
         logger.info("查询学生列表");
-        int i = 1/0;
         return studentMapper.getStudentList();
     }
 
@@ -48,7 +47,7 @@ public class StudentService {
         redisTemplate.opsForValue().set("age",student.getAge());
         //redisTemplate1.opsForValue().set("name",student.getName());
         //redisTemplate2.opsForValue().set("name",student.getName());
-        return new ResultRes("");
+        return ResultRes.success("添加成功");
     }
 
     public List<Student> getStudentList2()

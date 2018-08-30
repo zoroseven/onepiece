@@ -17,7 +17,7 @@ public class LoginController {
 	@Autowired
 	StudentService studentService;
 
-	@RequestMapping("/login")
+	@RequestMapping("/doLogin")
 	public String login(Student student){
 		Student stu = studentService.getStudentByNameAndPwd(student);
 		if(!StringUtils.isEmpty(stu)){

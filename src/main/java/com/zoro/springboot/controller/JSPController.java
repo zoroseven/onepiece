@@ -1,13 +1,11 @@
 package com.zoro.springboot.controller;
 
-import com.zoro.springboot.entity.Student;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class HelloController {
+public class JSPController {
 
     @RequestMapping("/")
     @ResponseBody
@@ -22,16 +20,17 @@ public class HelloController {
         return "index";
     }
 
-    @RequestMapping("/{id}")
-    @ResponseBody
-    public Student getStudent(@PathVariable String id)
+    @RequestMapping("/login")
+    public String login()
     {
-        Student student = new Student();
-        student.setId(id);
-        student.setAge(20);
-        student.setName("zhangsan");
-        student.setSex("male");
-        return student;
+        return "login";
     }
+
+    @RequestMapping("/upload")
+    public String upload()
+    {
+        return "upload";
+    }
+
 
 }

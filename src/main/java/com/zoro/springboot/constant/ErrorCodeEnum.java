@@ -1,22 +1,34 @@
 package com.zoro.springboot.constant;
 
-/**
- * @date 2018/8/20  14:59
- */
-public enum  ErrorCodeEnum {
-    SYS_ERROR("系统错误");
+public enum ErrorCodeEnum {
 
-    ErrorCodeEnum(String errorCode){
-        this.msg=errorCode;
+    SUCCESS(2000, "SUCCESS"),
+    PARAM_ERROR(1400, "参数错误"),
+    ERROR(5000, "请求失败，请联系客服");
+
+
+    private int code;
+    private String message;
+
+    private ErrorCodeEnum(int code, String message) {
+        this.code = code;
+        this.message = message;
     }
 
-    public String getMsg() {
-        return msg;
+    public int getCode() {
+        return code;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setCode(int code) {
+        this.code = code;
     }
 
-    private String msg;
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }
+

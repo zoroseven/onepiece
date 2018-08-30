@@ -22,6 +22,14 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalException {
 
+    //可以定义多个捕获异常的方法，捕获自定义异常也行，感觉比较多余，如果是自定义异常，程序中明确抛出了，还需要全局异常处理？
+    @ExceptionHandler(RuntimeException.class)
+    @ResponseBody
+    public ResultRes runtimeExceptionHandler(RuntimeException e){
+        logger.error("全局运行时异常处理，错误信息：{}",e.getMessage(),e);
+        return ResultRes.systemError();
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(GlobalException.class);
 
     @ExceptionHandler(value = Exception.class)
@@ -29,18 +37,9 @@ public class GlobalException {
         logger.error("全局异常处理，错误信息：{}",e.getMessage(),e);
         ModelAndView mav = new ModelAndView();
         ResultView view = new ResultView();
-        view.setResultRes(ResultRes.fail("内部错误",null));
+        view.setResultRes(ResultRes.systemError());
         mav.setView(view);
         return mav;
-    }
-
-    //可以定义多个捕获异常的方法，捕获自定义异常也行，感觉比较多余，如果是自定义异常，程序中明确抛出了，还需要全局异常处理？
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseBody
-    public ResultRes runtimeExceptionHandler(RuntimeException e){
-        logger.error("全局运行时异常处理，错误信息：{}",e.getMessage(),e);
-        ResultRes res = new ResultRes(ErrorCodeEnum.SYS_ERROR,e.getMessage());
-        return res;
     }
 
     protected class ResultView implements View{

@@ -27,8 +27,8 @@ public class CustomFilter implements Filter {
         logger.info("doFilter 请求处理");
         //对request、response进行一些预处理
         // 比如设置请求编码
-        // request.setCharacterEncoding("UTF-8");
-        // response.setCharacterEncoding("UTF-8");
+         request.setCharacterEncoding("UTF-8");
+         response.setCharacterEncoding("UTF-8");
         //TODO 进行业务逻辑
 
         //链路 直接传给下一个过滤器

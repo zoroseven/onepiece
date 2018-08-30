@@ -1,53 +1,66 @@
 package com.zoro.springboot.constant;
 
-/**
- * @date 2018/8/20  14:55
- */
-public class ResultRes<T> {
-    private String resultCode;
-    private String resultDec;
+import com.zoro.springboot.constant.ErrorCodeEnum;
+
+import java.io.Serializable;
+
+public class ResultRes<T> implements Serializable {
+    private int code;
+
+    private String message;
+
     private T data;
 
-    private ResultRes(String result, String reason, T data) {
-        this.resultCode = result;
-        this.resultDec = reason;
+    public ResultRes() {
+    }
+
+    public ResultRes(int code, String message, T data) {
+        this.code = code;
+        this.message = message;
         this.data = data;
     }
 
-    public ResultRes(ErrorCodeEnum errCode) {
-        this.resultCode = ResEnum.FAIL.toString();
-        this.resultDec = errCode.toString();
+    public static <T> ResultRes success(T data) {
+        return new ResultRes(ErrorCodeEnum.SUCCESS.getCode(), ErrorCodeEnum.SUCCESS.getMessage(), data);
     }
 
-    public ResultRes(T data) {
-        this.resultCode = ResEnum.SUCCESS.toString();
-        this.data = data;
+    public static <T> ResultRes systemError() {
+        return new ResultRes(ErrorCodeEnum.ERROR.getCode(), ErrorCodeEnum.ERROR.getMessage(), null);
     }
 
-    public ResultRes(ErrorCodeEnum errCode, T data) {
-        this.resultCode = ResEnum.FAIL.toString();
-        this.resultDec = errCode.toString();
-        this.data = data;
+    public static <T> ResultRes systemError(String errorCode) {
+        return new ResultRes(ErrorCodeEnum.ERROR.getCode(), "系统错误:["+errorCode+"]", null);
     }
 
-    public static ResultRes fail(String reason, String data) {
-        return new ResultRes("500", reason, data);
+    public static <T> ResultRes paramError(String msg) {
+        return new ResultRes(ErrorCodeEnum.PARAM_ERROR.getCode(), "参数错误:["+msg+"]", null);
     }
 
-    public String getResultCode() {
-        return resultCode;
+
+    public static <T> ResultRes buinessError(ErrorCodeEnum errorCodeEnum) {
+        return new ResultRes(errorCodeEnum.getCode(), errorCodeEnum.getMessage(), null);
     }
 
-    public void setResultCode(String resultCode) {
-        this.resultCode = resultCode;
+    public static <T> ResultRes buinessError(int code,String message) {
+        return new ResultRes(code, message, null);
     }
 
-    public String getResultDec() {
-        return resultDec;
+
+
+    public int getCode() {
+        return code;
     }
 
-    public void setResultDec(String resultDec) {
-        this.resultDec = resultDec;
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public T getData() {
