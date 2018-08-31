@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
@@ -17,6 +20,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import redis.clients.jedis.JedisPoolConfig;
 
 import javax.annotation.PostConstruct;
+import java.time.Duration;
 
 /**
  * @author gaocheng
@@ -99,17 +103,34 @@ public class RedisTemplateConfig {
 	}
 
 	public RedisConnectionFactory connectionFactory(
-			String hostName, int port, String password, int maxIdle, int maxTotal, int index, long maxWaitMillis) {
-		JedisConnectionFactory jedis = new JedisConnectionFactory();
-		jedis.setHostName(hostName);
-		jedis.setPort(port);
-		jedis.setPassword(password);
-		jedis.setDatabase(index);
-		jedis.setPoolConfig(this.poolCofig(maxIdle, maxTotal, maxWaitMillis));
-		// 初始化连接pool
-		jedis.afterPropertiesSet();
-		RedisConnectionFactory factory = jedis;
-		return factory;
+			String redisHost, int redisPort, String redisAuth, int maxIdle, int maxTotal, int redisDb, long maxWait) {
+		//已过时
+		//JedisConnectionFactory jedis = new JedisConnectionFactory();
+		//jedis.setHostName(hostName);
+		//jedis.setPort(port);
+		//jedis.setPassword(password);
+		//jedis.setDatabase(index);
+		//jedis.setPoolConfig(this.poolCofig(maxIdle, maxTotal, maxWaitMillis));
+		//// 初始化连接pool
+		//jedis.afterPropertiesSet();
+		//RedisConnectionFactory factory = jedis;
+		//return factory;
+		JedisPoolConfig poolConfig = new JedisPoolConfig();
+		poolConfig.setMaxTotal(maxTotal);
+		poolConfig.setMaxIdle(maxIdle);
+		poolConfig.setMaxWaitMillis(maxWait);
+		//poolConfig.setMinIdle(minIdle);
+		poolConfig.setTestOnBorrow(true);
+		poolConfig.setTestOnReturn(false);
+		poolConfig.setTestWhileIdle(true);
+
+		JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().usePooling().poolConfig(poolConfig).and().readTimeout(Duration.ofMillis(30000)).build();
+		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+		redisStandaloneConfiguration.setDatabase(redisDb);
+		redisStandaloneConfiguration.setPort(redisPort);
+		redisStandaloneConfiguration.setPassword(RedisPassword.of(redisAuth));
+		redisStandaloneConfiguration.setHostName(redisHost);
+		return new JedisConnectionFactory(redisStandaloneConfiguration, jedisClientConfiguration);
 	}
 
 	public JedisPoolConfig poolCofig(int maxIdle, int maxTotal, long maxWaitMillis) {
