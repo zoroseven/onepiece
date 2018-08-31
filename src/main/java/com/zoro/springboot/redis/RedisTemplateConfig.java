@@ -29,19 +29,28 @@ import java.time.Duration;
 @Configuration
 public class RedisTemplateConfig {
 
+	@Value("${spring.redis.host}")
+	private String hostName;
+	@Value("${spring.redis.port}")
+	private int port;
+	@Value("${spring.redis.password}")
+	private String password;
+	@Value("${spring.redis.jedis.pool.max-idle}")
+	private int maxIdle;
+	@Value("${spring.redis.jedis.pool.min-idle}")
+	private int minIdle;
+	@Value("${spring.redis.jedis.pool.max-active}")
+	private int maxTotal;
+	@Value("${spring.redis.database}")
+	private int database;
+	@Value("${log.redis.database}")
+	private int logDatabase;
+	@Value("${spring.redis.jedis-factory.max-wait}")
+	private long maxWaitMillis;
+
 	@Autowired
 	@Qualifier("logRedisTemplate")
 	private RedisTemplate logRedisTemplate;
-//
-//	@Bean
-//	public RedisTemplate redisTemplateInit(){
-//		//解决设置redis值时候的乱码问题
-//		redisTemplate.setKeySerializer(new StringRedisSerializer());
-//		redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-//		return redisTemplate;
-//	}
-
-
 
 	@PostConstruct
 	public void init(){
@@ -49,41 +58,16 @@ public class RedisTemplateConfig {
 	}
 
 	@Bean(name = "redisTemplate")
-	public RedisTemplate<String, Object> redisTemplate(
-			@Value("${spring.redis.host}") String hostName,
-			@Value("${spring.redis.port}") int port,
-			@Value("${spring.redis.password}") String password,
-			@Value("${spring.redis.jedis.pool.max-idle}") int maxIdle,
-			@Value("${spring.redis.jedis.pool.max-active}") int maxTotal,
-			@Value("${spring.redis.database}") int index,
-			@Value("${spring.redis.jedis-factory.max-wait}") long maxWaitMillis) {
-		//设置序列化
-		Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
-		ObjectMapper om = new ObjectMapper();
-		om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-		om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-		jackson2JsonRedisSerializer.setObjectMapper(om);
-
-		RedisTemplate<String, Object> temple = new RedisTemplate<String, Object>();
-		temple.setConnectionFactory(this.connectionFactory(
-				hostName, port, password, maxIdle, maxTotal, index, maxWaitMillis));
-		RedisSerializer stringSerializer = new StringRedisSerializer();
-		temple.setKeySerializer(stringSerializer);//key序列化
-		temple.setValueSerializer(jackson2JsonRedisSerializer);//value序列化
-		temple.setHashKeySerializer(stringSerializer);//Hash key序列化
-		temple.setHashValueSerializer(jackson2JsonRedisSerializer);//Hash value序列化
-		return temple;
+	public RedisTemplate<String, Object> getRedisTemplate(){
+		return redisTemplate(database);
 	}
 
 	@Bean(name = "logRedisTemplate")
-	public RedisTemplate<String, Object> logRedisTemplate(
-			@Value("${spring.redis.host}") String hostName,
-			@Value("${spring.redis.port}") int port,
-			@Value("${spring.redis.password}") String password,
-			@Value("${spring.redis.jedis.pool.max-idle}") int maxIdle,
-			@Value("${spring.redis.jedis.pool.max-active}") int maxTotal,
-			@Value("${log.redis.key.database}") int index,
-			@Value("${spring.redis.jedis-factory.max-wait}") long maxWaitMillis) {
+	public RedisTemplate<String, Object> getLogRedisTemplate(){
+		return redisTemplate(logDatabase);
+	}
+
+	public RedisTemplate<String, Object> redisTemplate(int redisDB) {
 		//设置序列化
 		Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
 		ObjectMapper om = new ObjectMapper();
@@ -91,19 +75,21 @@ public class RedisTemplateConfig {
 		om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 		jackson2JsonRedisSerializer.setObjectMapper(om);
 
-		RedisTemplate<String, Object> temple = new RedisTemplate<String, Object>();
-		temple.setConnectionFactory(this.connectionFactory(
-				hostName, port, password, maxIdle, maxTotal, index, maxWaitMillis));
+		RedisTemplate<String, Object> temple = new RedisTemplate<>();
+		temple.setConnectionFactory(this.connectionFactory(redisDB));
 		RedisSerializer stringSerializer = new StringRedisSerializer();
-		temple.setKeySerializer(stringSerializer);//key序列化
-		temple.setValueSerializer(jackson2JsonRedisSerializer);//value序列化
-		temple.setHashKeySerializer(stringSerializer);//Hash key序列化
-		temple.setHashValueSerializer(jackson2JsonRedisSerializer);//Hash value序列化
+		//key序列化
+		temple.setKeySerializer(stringSerializer);
+		//value序列化
+		temple.setValueSerializer(jackson2JsonRedisSerializer);
+		//Hash key序列化
+		temple.setHashKeySerializer(stringSerializer);
+		//Hash value序列化
+		temple.setHashValueSerializer(jackson2JsonRedisSerializer);
 		return temple;
 	}
 
-	public RedisConnectionFactory connectionFactory(
-			String redisHost, int redisPort, String redisAuth, int maxIdle, int maxTotal, int redisDb, long maxWait) {
+	public RedisConnectionFactory connectionFactory(int redisDb) {
 		//已过时
 		//JedisConnectionFactory jedis = new JedisConnectionFactory();
 		//jedis.setHostName(hostName);
@@ -118,8 +104,8 @@ public class RedisTemplateConfig {
 		JedisPoolConfig poolConfig = new JedisPoolConfig();
 		poolConfig.setMaxTotal(maxTotal);
 		poolConfig.setMaxIdle(maxIdle);
-		poolConfig.setMaxWaitMillis(maxWait);
-		//poolConfig.setMinIdle(minIdle);
+		poolConfig.setMaxWaitMillis(maxWaitMillis);
+		poolConfig.setMinIdle(minIdle);
 		poolConfig.setTestOnBorrow(true);
 		poolConfig.setTestOnReturn(false);
 		poolConfig.setTestWhileIdle(true);
@@ -127,12 +113,20 @@ public class RedisTemplateConfig {
 		JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().usePooling().poolConfig(poolConfig).and().readTimeout(Duration.ofMillis(30000)).build();
 		RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
 		redisStandaloneConfiguration.setDatabase(redisDb);
-		redisStandaloneConfiguration.setPort(redisPort);
-		redisStandaloneConfiguration.setPassword(RedisPassword.of(redisAuth));
-		redisStandaloneConfiguration.setHostName(redisHost);
+		redisStandaloneConfiguration.setPort(port);
+		redisStandaloneConfiguration.setPassword(RedisPassword.of(password));
+		redisStandaloneConfiguration.setHostName(hostName);
 		return new JedisConnectionFactory(redisStandaloneConfiguration, jedisClientConfiguration);
 	}
 
+	/**
+	 * 已过时
+	 * @param maxIdle
+	 * @param maxTotal
+	 * @param maxWaitMillis
+	 * @return
+	 */
+	@Deprecated
 	public JedisPoolConfig poolCofig(int maxIdle, int maxTotal, long maxWaitMillis) {
 		JedisPoolConfig poolCofig = new JedisPoolConfig();
 		poolCofig.setMaxIdle(maxIdle);

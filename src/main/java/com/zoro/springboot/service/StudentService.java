@@ -36,6 +36,7 @@ public class StudentService {
     {
         //studentMapper.getStudentList();
         log.info("查询学生列表");
+        redisTemplate.opsForValue().set("test","test123123");
         return studentMapper.getStudentList();
     }
 
