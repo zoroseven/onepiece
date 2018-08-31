@@ -7,11 +7,11 @@
   </select>
 
   <select id="findUpdateConfig" resultType="com.zoro.springboot.entity.SchedulerConfig">
-    select id,taskName,taskMemo,taskCron,isValid,isDealed from t_scheduler_config where isDealed=0 and isValid=1
+      select id,taskName,taskMemo,taskCron,isValid,isDealed from t_scheduler_config where isDealed=0 and isValid=1
   </select>
 
   <update id="updateSchedulerConfigDeal">
-    update mis_scheduler_config set isDealed=1 where id=#{id}
+      update t_scheduler_config set isDealed=1 where id=#{id}
   </update>
 
 </mapper>
