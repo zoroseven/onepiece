@@ -8,6 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author gaocheng
@@ -29,5 +30,6 @@ public class RedisOpsTest {
 //		System.out.println(set.contains("strarr"));
 		System.out.println(redisTemplate.opsForSet().isMember("set","strarr1"));//true
 		System.out.println(redisTemplate.opsForSet().isMember("set","strarr"));//false
+		ConcurrentHashMap map = new ConcurrentHashMap();
 	}
 }
