@@ -18,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * 相当于容器中已经有了WebMvcConfigurationSupport，所以默认配置都不会生效，都得自己在配置文件中配置
  */
 //public class WebMvcConfigurer extends WebMvcConfigurationSupport {
-public class WebMvcConfigurer implements org.springframework.web.servlet.config.annotation.WebMvcConfigurer {
+public class MyWebMvcConfigurer implements org.springframework.web.servlet.config.annotation.WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册拦截器 拦截规则

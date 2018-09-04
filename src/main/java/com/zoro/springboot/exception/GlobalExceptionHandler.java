@@ -1,7 +1,6 @@
 package com.zoro.springboot.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.zoro.springboot.constant.ErrorCodeEnum;
 import com.zoro.springboot.constant.ResultRes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,7 @@ import java.util.Map;
  * @date 2018/8/29  17:02
  */
 @ControllerAdvice
-public class GlobalException {
+public class GlobalExceptionHandler {
 
     //可以定义多个捕获异常的方法，捕获自定义异常也行，感觉比较多余，如果是自定义异常，程序中明确抛出了，还需要全局异常处理？
     @ExceptionHandler(RuntimeException.class)
@@ -30,7 +29,7 @@ public class GlobalException {
         return ResultRes.systemError();
     }
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalException.class);
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(Exception e) throws Exception {
@@ -42,7 +41,7 @@ public class GlobalException {
         return mav;
     }
 
-    protected class ResultView implements View{
+    private static class ResultView implements View{
 
         private ResultRes resultRes;
 
