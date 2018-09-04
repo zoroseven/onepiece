@@ -30,6 +30,5 @@ public class RedisOpsTest {
 //		System.out.println(set.contains("strarr"));
 		System.out.println(redisTemplate.opsForSet().isMember("set","strarr1"));//true
 		System.out.println(redisTemplate.opsForSet().isMember("set","strarr"));//false
-		ConcurrentHashMap map = new ConcurrentHashMap();
 	}
 }
