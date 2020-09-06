@@ -1,5 +1,6 @@
 package com.zoro.springboot.service;
 
+import com.alibaba.fastjson.JSON;
 import com.zoro.springboot.constant.ResultRes;
 import com.zoro.springboot.entity.Student;
 import com.zoro.springboot.mapper.StudentMapper;
@@ -34,10 +35,10 @@ public class StudentService {
     @Transactional
     public List<Student> getStudentList()
     {
-        //studentMapper.getStudentList();
+        List<Student> studentList = studentMapper.getStudentList();
         log.info("查询学生列表");
-        redisTemplate.opsForValue().set("test","test123123");
-        return studentMapper.getStudentList();
+        redisTemplate.opsForValue().set("stuList", JSON.toJSONString(studentList));
+        return studentList;
     }
 
     public Student getStudentByNameAndPwd(Student student){

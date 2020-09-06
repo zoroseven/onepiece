@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 /**
  * @date 2018/8/30  15:42
  */
-@Component
-@EnableScheduling
+//@Component
+//@EnableScheduling
 @Slf4j
 public class ScheduleTask implements InitializingBean{
 
